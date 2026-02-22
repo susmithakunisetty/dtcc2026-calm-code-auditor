@@ -1,0 +1,272 @@
+[
+  {
+    "control_id": "fineract-platform-core/rbac-authorization",
+    "node_id": "fineract-platform-core",
+    "control_name": "Role-based access control for platform operations",
+    "declared": true,
+    "classification": "DECLARED_BUT_NOT_FOUND",
+    "risk": "CRITICAL",
+    "reasoning": "CALM claims role-based access control, but no evidence of RBAC implementation found in the codebase.",
+    "evidence": {
+      "calm_config": {
+        "authorization-framework": "Spring Security",
+        "granularity": "fine-grained",
+        "default-policy": "deny-all",
+        "least-privilege": true,
+        "segregation-of-duties": true,
+        "role-hierarchy": true,
+        "compliance-framework": "ISO27001"
+      },
+      "requirement_url": "https://fineract.apache.org/controls/rbac.json"
+    },
+    "recommendations": [
+      "Implement role-based access control using Spring Security.",
+      "Define roles and permissions for different user types."
+    ]
+  },
+  {
+    "control_id": "portfolio-module/rbac-authorization",
+    "node_id": "portfolio-module",
+    "control_name": "Role-based access control for portfolio operations",
+    "declared": true,
+    "classification": "DECLARED_BUT_NOT_FOUND",
+    "risk": "CRITICAL",
+    "reasoning": "CALM claims role-based access control for portfolio operations, but no evidence of RBAC implementation or related classes is found in the codebase.",
+    "evidence": {
+      "calm_config": {
+        "authorization-framework": "Spring Security",
+        "granularity": "fine-grained",
+        "default-policy": "deny-all",
+        "least-privilege": true,
+        "segregation-of-duties": true,
+        "role-hierarchy": true,
+        "compliance-framework": "NIST-800-53"
+      },
+      "requirement_url": "https://fineract.apache.org/controls/rbac.json"
+    },
+    "recommendations": [
+      "Implement RBAC using Spring Security for portfolio operations.",
+      "Define roles and permissions according to the CALM specification."
+    ]
+  },
+  {
+    "control_id": "user-administration-module/rbac-authorization",
+    "node_id": "user-administration-module",
+    "control_name": "User role-based access control",
+    "declared": true,
+    "classification": "DECLARED_BUT_NOT_FOUND",
+    "risk": "CRITICAL",
+    "reasoning": "CALM claims RBAC is implemented, but there are no security classes or RBAC configurations found in the codebase.",
+    "evidence": {
+      "calm_config": {
+        "authorization-framework": "Spring Security",
+        "granularity": "fine-grained",
+        "default-policy": "deny-all",
+        "least-privilege": true,
+        "segregation-of-duties": true,
+        "role-hierarchy": true,
+        "compliance-framework": "ISO27001"
+      },
+      "requirement_url": "https://fineract.apache.org/controls/rbac.json"
+    },
+    "recommendations": [
+      "Implement role-based access control using Spring Security.",
+      "Define user roles and permissions in the user administration module."
+    ]
+  },
+  {
+    "control_id": "fineract-api-gateway/mfa-authentication",
+    "node_id": "fineract-api-gateway",
+    "control_name": "Multi-factor authentication for API access",
+    "declared": true,
+    "classification": "DECLARED_BUT_NOT_FOUND",
+    "risk": "HIGH",
+    "reasoning": "CALM declares MFA for API access, but no evidence of MFA implementation found in the codebase.",
+    "evidence": {
+      "calm_config": {
+        "mfa-factors": [
+          "password",
+          "OTP"
+        ],
+        "mfa-enforcement": "role-based",
+        "token-expiry": "1 hour access token, 24 hour refresh token"
+      },
+      "requirement_url": "https://fineract.apache.org/controls/authentication-mfa.json"
+    },
+    "recommendations": [
+      "Implement multi-factor authentication using Spring Security.",
+      "Integrate OTP generation and validation mechanisms."
+    ]
+  },
+  {
+    "control_id": "fineract-api-gateway/api-rate-limiting",
+    "node_id": "fineract-api-gateway",
+    "control_name": "API rate limiting to prevent DoS attacks",
+    "declared": true,
+    "classification": "DECLARED_BUT_NOT_FOUND",
+    "risk": "HIGH",
+    "reasoning": "CALM claims API rate limiting with Resilience4j, but no RateLimiter classes or configurations found in the codebase.",
+    "evidence": {
+      "calm_config": {
+        "requests-per-minute": 1000,
+        "framework": "Resilience4j RateLimiter",
+        "strategy": "token-bucket",
+        "scope": "per-tenant"
+      },
+      "requirement_url": "https://fineract.apache.org/controls/rate-limiting.json"
+    },
+    "recommendations": [
+      "Add Resilience4j RateLimiter configuration to the API gateway layer.",
+      "Implement rate limiting on API endpoints."
+    ]
+  },
+  {
+    "control_id": "batch-job-scheduler/circuit-breaker",
+    "node_id": "batch-job-scheduler",
+    "control_name": "Resilience pattern for batch operations",
+    "declared": true,
+    "classification": "DECLARED_BUT_NOT_FOUND",
+    "risk": "HIGH",
+    "reasoning": "CALM declares a circuit breaker for batch operations using Resilience4j, but no circuit breaker classes or configurations are found in the codebase.",
+    "evidence": {
+      "calm_config": {
+        "framework": "Resilience4j",
+        "failure-threshold": 5,
+        "timeout": "30 seconds",
+        "reset-timeout": "1 minute",
+        "half-open-max-calls": 3
+      },
+      "requirement_url": "https://fineract.apache.org/controls/circuit-breaker.json"
+    },
+    "recommendations": [
+      "Implement Resilience4j circuit breaker for batch job operations.",
+      "Configure failure thresholds and timeouts as per the CALM specification."
+    ]
+  },
+  {
+    "control_id": "portfolio-module/audit-logging",
+    "node_id": "portfolio-module",
+    "control_name": "Immutable audit logs for portfolio operations",
+    "declared": true,
+    "classification": "DECLARED_BUT_NOT_FOUND",
+    "risk": "HIGH",
+    "reasoning": "CALM specifies immutable audit logs for portfolio operations, but no relevant logging classes or configurations are found in the codebase.",
+    "evidence": {
+      "calm_config": {
+        "log-level": "comprehensive",
+        "retention-period": "7 years",
+        "immutability": "append-only",
+        "storage-location": "m_portfolio_command_source",
+        "logged-events": [
+          "client-create",
+          "loan-create",
+          "savings-create"
+        ],
+        "compliance-framework": "SOX"
+      },
+      "requirement_url": "https://fineract.apache.org/controls/audit-logging.json"
+    },
+    "recommendations": [
+      "Implement immutable audit logging for portfolio operations.",
+      "Ensure compliance with SOX by logging specified events."
+    ]
+  },
+  {
+    "control_id": "accounting-module/double-entry-accounting",
+    "node_id": "accounting-module",
+    "control_name": "Double-entry bookkeeping integrity",
+    "declared": true,
+    "classification": "DECLARED_BUT_NOT_FOUND",
+    "risk": "HIGH",
+    "reasoning": "The control for double-entry accounting integrity is declared, but no evidence of enforcement or validation rules is found in the codebase.",
+    "evidence": {
+      "calm_config": {
+        "validation-rule": "debits-equal-credits",
+        "enforcement-level": "pre-commit",
+        "reconciliation-frequency": "daily",
+        "compliance-framework": "GAAP"
+      },
+      "requirement_url": "https://fineract.apache.org/controls/double-entry-accounting.json"
+    },
+    "recommendations": [
+      "Implement double-entry accounting checks to ensure debits equal credits.",
+      "Establish reconciliation processes as per the CALM specification."
+    ]
+  },
+  {
+    "control_id": "user-administration-module/password-policy",
+    "node_id": "user-administration-module",
+    "control_name": "Strong password policy enforcement",
+    "declared": true,
+    "classification": "DECLARED_BUT_NOT_FOUND",
+    "risk": "HIGH",
+    "reasoning": "The password policy control is declared, but no evidence of password policy enforcement or related classes is found in the codebase.",
+    "evidence": {
+      "calm_config": {
+        "algorithm": "bcrypt",
+        "min-length": 12,
+        "complexity-requirements": {
+          "uppercase": true,
+          "lowercase": true,
+          "numbers": true,
+          "special-chars": true
+        },
+        "expiry-days": 90,
+        "history-count": 5,
+        "compliance-framework": "NIST-800-63B"
+      },
+      "requirement_url": "https://fineract.apache.org/controls/password-policy.json"
+    },
+    "recommendations": [
+      "Implement a strong password policy as per NIST-800-63B.",
+      "Ensure password complexity and expiry requirements are enforced."
+    ]
+  },
+  {
+    "control_id": "user-administration-module/session-management",
+    "node_id": "user-administration-module",
+    "control_name": "Secure session management",
+    "declared": true,
+    "classification": "DECLARED_BUT_NOT_FOUND",
+    "risk": "HIGH",
+    "reasoning": "CALM declares secure session management but no session management classes or configurations found in the codebase.",
+    "evidence": {
+      "calm_config": {
+        "timeout-minutes": 30,
+        "max-sessions-per-user": 1,
+        "session-fixation-protection": true,
+        "secure-cookie": true,
+        "http-only-cookie": true,
+        "same-site-policy": "Strict"
+      },
+      "requirement_url": "https://fineract.apache.org/controls/session-management.json"
+    },
+    "recommendations": [
+      "Implement session management features in the user administration module.",
+      "Ensure session timeout, secure cookies, and session fixation protection are configured."
+    ]
+  },
+  {
+    "control_id": "cob-module/circuit-breaker",
+    "node_id": "cob-module",
+    "control_name": "Resilience for COB processing",
+    "declared": true,
+    "classification": "DECLARED_BUT_NOT_FOUND",
+    "risk": "HIGH",
+    "reasoning": "CALM claims the use of Resilience4j for circuit breaking, but no circuit breaker classes or configurations found in the codebase.",
+    "evidence": {
+      "calm_config": {
+        "framework": "Resilience4j",
+        "failure-threshold": 3,
+        "timeout": "5 minutes",
+        "reset-timeout": "10 minutes",
+        "half-open-max-calls": 1
+      },
+      "requirement_url": "https://fineract.apache.org/controls/circuit-breaker.json"
+    },
+    "recommendations": [
+      "Implement Resilience4j circuit breaker in the COB module.",
+      "Configure failure thresholds and timeouts as per the CALM specifications."
+    ]
+  }
+]

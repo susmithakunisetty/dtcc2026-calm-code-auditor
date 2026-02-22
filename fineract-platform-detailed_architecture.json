@@ -1,0 +1,807 @@
+{
+  "$schema": "https://calm.finos.org/release/1.2/meta/calm.json",
+  "unique-id": "fineract-platform-detailed",
+  "name": "Fineract Platform Core - Detailed Architecture",
+  "description": "Detailed internal architecture of the Fineract Platform Core, showing the modular structure organized as vertical slices by business capability. Implements Command Query Responsibility Segregation (CQRS) pattern.",
+  "metadata": {
+    "version": "1.0.0",
+    "created-by": "CALM Architecture Assistant",
+    "created-date": "2026-02-16",
+    "runtime": "Java 21+",
+    "framework": "Spring Boot 3.x",
+    "package-structure": "Vertical slices by business domain",
+    "architecture-patterns": [
+      "CQRS",
+      "Maker-Checker",
+      "Domain-Driven Design"
+    ]
+  },
+  "nodes": [
+    {
+      "unique-id": "portfolio-module",
+      "node-type": "service",
+      "name": "Portfolio Management Module",
+      "description": "Core module for managing loans, deposits, clients, and groups. Handles the complete lifecycle of financial products and customer relationships.",
+      "interfaces": [
+        {
+          "unique-id": "portfolio-api",
+          "path": "/api/v1/portfolio"
+        }
+      ],
+      "metadata": {
+        "package": "org.apache.fineract.portfolio",
+        "sub-modules": [
+          "client - Client/customer management",
+          "group - Group and center management",
+          "loanaccount - Loan account operations",
+          "savings - Savings and deposit accounts",
+          "shareaccounts - Share account management",
+          "charge - Fee and charge management",
+          "fund - Fund management",
+          "collateral - Collateral management",
+          "calendar - Meeting and repayment schedules"
+        ],
+        "key-entities": [
+          "Client",
+          "Group",
+          "Loan",
+          "Savings",
+          "Shares"
+        ],
+        "responsibilities": [
+          "Customer onboarding and KYC",
+          "Product assignment to customers",
+          "Account lifecycle management",
+          "Transaction processing",
+          "Repayment scheduling"
+        ]
+      },
+      "controls": {
+        "rbac-authorization": {
+          "description": "Role-based access control for portfolio operations",
+          "requirements": [
+            {
+              "requirement-url": "https://fineract.apache.org/controls/rbac.json",
+              "config": {
+                "authorization-framework": "Spring Security",
+                "granularity": "fine-grained",
+                "default-policy": "deny-all",
+                "least-privilege": true,
+                "segregation-of-duties": true,
+                "role-hierarchy": true,
+                "compliance-framework": "NIST-800-53"
+              }
+            }
+          ]
+        },
+        "input-validation": {
+          "description": "Input validation and injection prevention",
+          "requirements": [
+            {
+              "requirement-url": "https://fineract.apache.org/controls/input-validation.json",
+              "config": {
+                "validation-framework": "Jakarta Validation",
+                "sql-injection-prevention": "parameterized-queries",
+                "xss-prevention": "output-encoding",
+                "constraints": [
+                  "NotNull",
+                  "Size",
+                  "Pattern"
+                ],
+                "compliance-framework": "OWASP-Top-10"
+              }
+            }
+          ]
+        },
+        "audit-logging": {
+          "description": "Immutable audit logs for portfolio operations",
+          "requirements": [
+            {
+              "requirement-url": "https://fineract.apache.org/controls/audit-logging.json",
+              "config": {
+                "log-level": "comprehensive",
+                "retention-period": "7 years",
+                "immutability": "append-only",
+                "storage-location": "m_portfolio_command_source",
+                "logged-events": [
+                  "client-create",
+                  "loan-create",
+                  "savings-create"
+                ],
+                "compliance-framework": "SOX"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "unique-id": "accounting-module",
+      "node-type": "service",
+      "name": "Accounting Module",
+      "description": "Double-entry bookkeeping system managing chart of accounts, general ledger, and financial reporting. Supports both cash and accrual accounting.",
+      "interfaces": [
+        {
+          "unique-id": "accounting-api",
+          "path": "/api/v1/accounting"
+        }
+      ],
+      "metadata": {
+        "package": "org.apache.fineract.accounting",
+        "capabilities": [
+          "Chart of Accounts management",
+          "General Ledger entries",
+          "Journal entry creation",
+          "Account closure",
+          "Financial reporting"
+        ],
+        "accounting-standards": "Double-entry bookkeeping",
+        "modes": [
+          "Cash-based",
+          "Accrual-based"
+        ]
+      },
+      "controls": {
+        "double-entry-accounting": {
+          "description": "Double-entry bookkeeping integrity",
+          "requirements": [
+            {
+              "requirement-url": "https://fineract.apache.org/controls/double-entry-accounting.json",
+              "config": {
+                "validation-rule": "debits-equal-credits",
+                "enforcement-level": "pre-commit",
+                "reconciliation-frequency": "daily",
+                "compliance-framework": "GAAP"
+              }
+            }
+          ]
+        },
+        "audit-logging": {
+          "description": "Accounting transaction audit trail",
+          "requirements": [
+            {
+              "requirement-url": "https://fineract.apache.org/controls/audit-logging.json",
+              "config": {
+                "log-level": "comprehensive",
+                "retention-period": "7 years",
+                "immutability": "append-only",
+                "logged-events": [
+                  "journal-entry",
+                  "posting",
+                  "reversal"
+                ],
+                "compliance-framework": "SOX"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "unique-id": "user-administration-module",
+      "node-type": "service",
+      "name": "User Administration Module",
+      "description": "Manages users, roles, and fine-grained permissions. Provides authentication and authorization services.",
+      "interfaces": [
+        {
+          "unique-id": "users-api",
+          "path": "/api/v1/users"
+        },
+        {
+          "unique-id": "roles-api",
+          "path": "/api/v1/roles"
+        }
+      ],
+      "metadata": {
+        "package": "org.apache.fineract.useradministration",
+        "capabilities": [
+          "User management",
+          "Role-based access control (RBAC)",
+          "Fine-grained permissions",
+          "Authentication",
+          "Authorization"
+        ],
+        "security-integration": "Spring Security"
+      },
+      "controls": {
+        "password-policy": {
+          "description": "Strong password policy enforcement",
+          "requirements": [
+            {
+              "requirement-url": "https://fineract.apache.org/controls/password-policy.json",
+              "config": {
+                "algorithm": "bcrypt",
+                "min-length": 12,
+                "complexity-requirements": {
+                  "uppercase": true,
+                  "lowercase": true,
+                  "numbers": true,
+                  "special-chars": true
+                },
+                "expiry-days": 90,
+                "history-count": 5,
+                "compliance-framework": "NIST-800-63B"
+              }
+            }
+          ]
+        },
+        "session-management": {
+          "description": "Secure session management",
+          "requirements": [
+            {
+              "requirement-url": "https://fineract.apache.org/controls/session-management.json",
+              "config": {
+                "timeout-minutes": 30,
+                "max-sessions-per-user": 1,
+                "session-fixation-protection": true,
+                "secure-cookie": true,
+                "http-only-cookie": true,
+                "same-site-policy": "Strict"
+              }
+            }
+          ]
+        },
+        "rbac-authorization": {
+          "description": "User role-based access control",
+          "requirements": [
+            {
+              "requirement-url": "https://fineract.apache.org/controls/rbac.json",
+              "config": {
+                "authorization-framework": "Spring Security",
+                "granularity": "fine-grained",
+                "default-policy": "deny-all",
+                "least-privilege": true,
+                "segregation-of-duties": true,
+                "role-hierarchy": true,
+                "compliance-framework": "ISO27001"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "unique-id": "organization-module",
+      "node-type": "service",
+      "name": "Organization Module",
+      "description": "Models organizational hierarchy including offices, staff, and currency configuration for multi-branch operations.",
+      "interfaces": [
+        {
+          "unique-id": "organization-api",
+          "path": "/api/v1/offices"
+        }
+      ],
+      "metadata": {
+        "package": "org.apache.fineract.organisation",
+        "capabilities": [
+          "Office hierarchy management",
+          "Staff management",
+          "Currency configuration",
+          "Working days configuration",
+          "Holiday management"
+        ],
+        "hierarchy-support": true
+      }
+    },
+    {
+      "unique-id": "infrastructure-module",
+      "node-type": "service",
+      "name": "Infrastructure Module",
+      "description": "Cross-cutting infrastructure services including configuration, reporting, document management, notifications, and data tables for extensibility.",
+      "interfaces": [
+        {
+          "unique-id": "infrastructure-api",
+          "path": "/api/v1/infrastructure"
+        }
+      ],
+      "metadata": {
+        "package": "org.apache.fineract.infrastructure",
+        "sub-modules": [
+          "codes - System codes and lookup values",
+          "datatable - Dynamic extensible data tables",
+          "reportmailingjob - Scheduled report delivery",
+          "configuration - System configuration",
+          "documentmanagement - Document storage",
+          "jobs - Batch job framework",
+          "cache - Caching infrastructure",
+          "notification - SMS and email notifications",
+          "security - Authentication and encryption"
+        ],
+        "cross-cutting-services": "Provides shared services to all platform modules including configuration, caching, job scheduling, and document storage"
+      }
+    },
+    {
+      "unique-id": "command-processing-module",
+      "node-type": "service",
+      "name": "Command Processing Module",
+      "description": "Implements CQRS pattern separating commands (state changes) from queries (data reads). Provides maker-checker workflow and audit trail.",
+      "interfaces": [
+        {
+          "unique-id": "command-api",
+          "path": "/api/v1/commands"
+        }
+      ],
+      "metadata": {
+        "package": "org.apache.fineract.commands",
+        "pattern": "Command Query Responsibility Segregation (CQRS)",
+        "capabilities": [
+          "Command validation",
+          "Command handlers dispatch",
+          "Maker-checker workflow",
+          "Audit logging",
+          "Idempotency support"
+        ],
+        "audit-table": "m_portfolio_command_source"
+      }
+    },
+    {
+      "unique-id": "cob-module",
+      "node-type": "service",
+      "name": "Close of Business (COB) Module",
+      "description": "Handles end-of-day processing including loan interest calculation, fee application, and account status updates. Supports parallel processing with loan locking.",
+      "interfaces": [
+        {
+          "unique-id": "cob-api",
+          "path": "/api/v1/cob"
+        }
+      ],
+      "metadata": {
+        "package": "org.apache.fineract.cob",
+        "operations": [
+          "Daily interest accrual",
+          "Fee processing",
+          "Penalty calculation",
+          "Account status updates",
+          "Business date advancement"
+        ],
+        "concurrency": "Loan-level locking for parallel processing"
+      },
+      "controls": {
+        "transaction-integrity": {
+          "description": "ACID transaction integrity for COB",
+          "requirements": [
+            {
+              "requirement-url": "https://fineract.apache.org/controls/transaction-integrity.json",
+              "config": {
+                "isolation-level": "SERIALIZABLE",
+                "atomicity": true,
+                "consistency": true,
+                "durability": true,
+                "validation": "post-commit"
+              }
+            }
+          ]
+        },
+        "circuit-breaker": {
+          "description": "Resilience for COB processing",
+          "requirements": [
+            {
+              "requirement-url": "https://fineract.apache.org/controls/circuit-breaker.json",
+              "config": {
+                "framework": "Resilience4j",
+                "failure-threshold": 3,
+                "timeout": "5 minutes",
+                "reset-timeout": "10 minutes",
+                "half-open-max-calls": 1
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "unique-id": "batch-module",
+      "node-type": "service",
+      "name": "Batch Processing Module",
+      "description": "Scheduled job execution framework for recurring operations like reports, data exports, and system maintenance.",
+      "interfaces": [
+        {
+          "unique-id": "batch-api",
+          "path": "/api/v1/jobs"
+        }
+      ],
+      "metadata": {
+        "package": "org.apache.fineract.batch",
+        "scheduler": "Spring Scheduler",
+        "job-types": [
+          "Report generation",
+          "Data archival",
+          "System cleanup",
+          "Integration synchronization"
+        ]
+      }
+    },
+    {
+      "unique-id": "loan-module",
+      "node-type": "service",
+      "name": "Loan Module",
+      "description": "Comprehensive loan management including product configuration, disbursement, repayment processing, and advanced payment allocation strategies.",
+      "interfaces": [
+        {
+          "unique-id": "loan-api",
+          "path": "/api/v1/loans"
+        }
+      ],
+      "metadata": {
+        "package": "org.apache.fineract.loan",
+        "capabilities": [
+          "Loan product configuration",
+          "Loan origination",
+          "Disbursement processing",
+          "Repayment processing",
+          "Advanced payment allocation",
+          "Progressive loan schedules",
+          "Loan restructuring"
+        ],
+        "payment-strategies": [
+          "Standard",
+          "Progressive",
+          "Advanced Allocation"
+        ]
+      }
+    },
+    {
+      "unique-id": "notification-module",
+      "node-type": "service",
+      "name": "Notification Module",
+      "description": "Multi-channel notification system supporting SMS, email, and webhook delivery for customer communications and system alerts.",
+      "interfaces": [
+        {
+          "unique-id": "notification-api",
+          "path": "/api/v1/notifications"
+        }
+      ],
+      "metadata": {
+        "package": "org.apache.fineract.notification",
+        "channels": [
+          "SMS",
+          "Email",
+          "Webhook"
+        ],
+        "use-cases": [
+          "Transaction confirmations",
+          "Payment reminders",
+          "Account alerts",
+          "System notifications"
+        ]
+      }
+    },
+    {
+      "unique-id": "interoperation-module",
+      "node-type": "service",
+      "name": "Interoperation Module",
+      "description": "Standards-based integration module supporting interoperability with payment systems, mobile money operators, and other financial institutions.",
+      "interfaces": [
+        {
+          "unique-id": "interop-api",
+          "path": "/api/v1/interoperation"
+        }
+      ],
+      "metadata": {
+        "package": "org.apache.fineract.interoperation",
+        "standards": [
+          "ISO 20022",
+          "Mojaloop"
+        ],
+        "capabilities": [
+          "Account lookup",
+          "Quote generation",
+          "Transfer processing"
+        ]
+      }
+    },
+    {
+      "unique-id": "reporting-module",
+      "node-type": "service",
+      "name": "Reporting Module",
+      "description": "Flexible reporting engine supporting ad-hoc queries, scheduled reports, and regulatory reporting. Uses JDBC for read-optimized queries.",
+      "interfaces": [
+        {
+          "unique-id": "reports-api",
+          "path": "/api/v1/reports"
+        }
+      ],
+      "metadata": {
+        "package": "org.apache.fineract.infrastructure.report",
+        "capabilities": [
+          "Custom query builder",
+          "Scheduled report generation",
+          "Multi-format output (PDF, Excel, CSV)",
+          "Report templates"
+        ],
+        "query-technology": "JDBC for performance"
+      }
+    },
+    {
+      "unique-id": "data-persistence-layer",
+      "node-type": "service",
+      "name": "Data Persistence Layer",
+      "description": "ORM layer using Spring Data JPA with EclipseLink for entity management, transactions, and database operations.",
+      "interfaces": [
+        {
+          "unique-id": "jpa-interface",
+          "protocol": "JDBC"
+        }
+      ],
+      "metadata": {
+        "orm": "EclipseLink JPA",
+        "framework": "Spring Data JPA",
+        "transaction-manager": "Spring JPA Transaction Manager",
+        "capabilities": [
+          "Entity persistence",
+          "Relationship management",
+          "Query optimization",
+          "Transaction management",
+          "Static weaving for performance"
+        ]
+      }
+    },
+    {
+      "unique-id": "security-module",
+      "node-type": "service",
+      "name": "Security Module",
+      "description": "Comprehensive security services including authentication (Basic, OAuth2, OIDC), authorization, and encryption.",
+      "interfaces": [
+        {
+          "unique-id": "security-api",
+          "path": "/api/v1/authentication"
+        }
+      ],
+      "metadata": {
+        "package": "org.apache.fineract.infrastructure.security",
+        "authentication-methods": [
+          "HTTP Basic",
+          "OAuth2",
+          "OIDC Federation"
+        ],
+        "framework": "Spring Security",
+        "capabilities": [
+          "Multi-factor authentication",
+          "Fine-grained authorization",
+          "Data encryption",
+          "API key management"
+        ],
+        "control-requirements": {
+          "authentication": "MFA capability per NIST 800-63B",
+          "encryption": "Approved algorithms per FIPS 140-3",
+          "key-management": "Secure generation, storage, rotation per NIST 800-57"
+        },
+        "control-implementations": {
+          "mfa-factors": [
+            "password",
+            "OTP",
+            "biometric"
+          ],
+          "token-expiry": "1 hour access, 24 hour refresh",
+          "encryption-algorithms": [
+            "AES-256-GCM",
+            "RSA-2048"
+          ],
+          "tls-version": "1.3",
+          "cipher-suites": "FIPS-approved only",
+          "key-storage": "HSM or Cloud KMS",
+          "key-rotation": "Annual for encryption keys, 90 days for signing keys"
+        }
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "unique-id": "portfolio-to-accounting",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "portfolio-module"
+          },
+          "destination": {
+            "node": "accounting-module"
+          }
+        }
+      },
+      "description": "Portfolio transactions trigger accounting entries in the general ledger",
+      "metadata": {
+        "interaction-type": "Event-driven",
+        "data-flow": "Transaction events"
+      }
+    },
+    {
+      "unique-id": "portfolio-to-commands",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "portfolio-module"
+          },
+          "destination": {
+            "node": "command-processing-module"
+          }
+        }
+      },
+      "description": "Portfolio operations are processed through command handlers for audit and maker-checker",
+      "metadata": {
+        "pattern": "Command Handler pattern"
+      }
+    },
+    {
+      "unique-id": "loan-to-portfolio",
+      "relationship-type": {
+        "composed-of": {
+          "container": "portfolio-module",
+          "nodes": [
+            "loan-module"
+          ]
+        }
+      },
+      "description": "Loan module is a specialized component of portfolio management",
+      "metadata": {
+        "relationship": "Composition"
+      }
+    },
+    {
+      "unique-id": "cob-to-loan",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "cob-module"
+          },
+          "destination": {
+            "node": "loan-module"
+          }
+        }
+      },
+      "description": "COB processes loan accounts for daily operations",
+      "metadata": {
+        "schedule": "Daily",
+        "concurrency": "Parallel with loan locking"
+      }
+    },
+    {
+      "unique-id": "commands-to-persistence",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "command-processing-module"
+          },
+          "destination": {
+            "node": "data-persistence-layer"
+          }
+        }
+      },
+      "description": "Commands persist state changes through JPA layer",
+      "protocol": "JDBC",
+      "metadata": {
+        "transaction-scope": "Command-level"
+      }
+    },
+    {
+      "unique-id": "reports-to-persistence",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "reporting-module"
+          },
+          "destination": {
+            "node": "data-persistence-layer"
+          }
+        }
+      },
+      "description": "Reporting uses read-optimized queries via JDBC",
+      "protocol": "JDBC",
+      "metadata": {
+        "query-pattern": "Direct JDBC for performance",
+        "read-only": true
+      }
+    },
+    {
+      "unique-id": "notification-to-portfolio",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "notification-module"
+          },
+          "destination": {
+            "node": "portfolio-module"
+          }
+        }
+      },
+      "description": "Portfolio events trigger customer notifications",
+      "metadata": {
+        "pattern": "Event-driven",
+        "asynchronous": true
+      }
+    },
+    {
+      "unique-id": "security-to-all",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "security-module"
+          },
+          "destination": {
+            "node": "user-administration-module"
+          }
+        }
+      },
+      "description": "Security module integrates with user administration for authentication and authorization",
+      "metadata": {
+        "cross-cutting": "All modules use security services"
+      }
+    },
+    {
+      "unique-id": "batch-to-cob",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "batch-module"
+          },
+          "destination": {
+            "node": "cob-module"
+          }
+        }
+      },
+      "description": "Batch framework schedules and executes COB operations",
+      "metadata": {
+        "trigger": "Scheduled"
+      }
+    },
+    {
+      "unique-id": "interop-to-portfolio",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "interoperation-module"
+          },
+          "destination": {
+            "node": "portfolio-module"
+          }
+        }
+      },
+      "description": "Interoperation module processes external transfers by updating portfolio accounts",
+      "metadata": {
+        "standards": [
+          "ISO 20022",
+          "Mojaloop"
+        ]
+      }
+    },
+    {
+      "unique-id": "organization-to-portfolio",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "organization-module"
+          },
+          "destination": {
+            "node": "portfolio-module"
+          }
+        }
+      },
+      "description": "Organization structure (offices, staff) contextualizes portfolio entities",
+      "metadata": {
+        "relationship": "Organization provides context for portfolio operations"
+      }
+    },
+    {
+      "unique-id": "infrastructure-provides-support",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "infrastructure-module"
+          },
+          "destination": {
+            "node": "portfolio-module"
+          }
+        }
+      },
+      "description": "Infrastructure module provides cross-cutting services (configuration, caching, data tables) to all modules",
+      "metadata": {
+        "pattern": "Cross-cutting infrastructure services",
+        "services": [
+          "Configuration",
+          "Caching",
+          "Data Tables",
+          "Document Management"
+        ]
+      }
+    }
+  ]
+}
