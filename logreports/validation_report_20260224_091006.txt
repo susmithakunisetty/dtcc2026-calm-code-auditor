@@ -1,0 +1,54 @@
+# Enterprise Architecture Compliance Audit Report
+
+## Overview
+This report provides an assessment of the Apache Fineract System Architecture based on the FINOS CALM models. The audit focuses on validating the existence of log services, relationship consistency, control coverage, detection of anomalies, and missing control evidence.
+
+## Findings
+
+### 1. Log Services Validation
+- **Log Services Existence**: 
+  - The architecture includes comprehensive audit logging controls in the following services:
+    - **Fineract REST API Gateway**
+    - **Fineract Platform Core**
+    - **Batch Job Scheduler**
+  - All required log services are present in the architecture nodes.
+
+### 2. Relationship Consistency
+- **Consistency Check**: 
+  - All defined relationships between architecture nodes are consistent with the expected interactions. Each relationship specifies the source and destination nodes, along with the interfaces used for communication.
+
+### 3. Control Coverage Validation
+- **RBAC (Role-Based Access Control)**: Implemented in both the Fineract Platform Core and the User Administration Module.
+- **MFA (Multi-Factor Authentication)**: Implemented in the Fineract REST API Gateway and Security Module.
+- **TLS (Transport Layer Security)**: Implemented in the Fineract REST API Gateway.
+- **Audit Logging**: Comprehensive audit logging is implemented across multiple services.
+- **Transaction Integrity**: Implemented in the Fineract Platform Core and Close of Business Module.
+
+### 4. Anomalies Detection
+- **Anomalies Found**: 
+  - No significant anomalies were detected in the architecture or runtime logs. All services appear to be functioning as intended based on the provided logs.
+
+### 5. Missing Control Evidence
+- **Control Evidence**: 
+  - No missing control evidence was identified. All controls have documented requirements and configurations.
+
+## Summary
+The Apache Fineract System Architecture adheres to the FINOS CALM models with no significant gaps identified in log services, relationship consistency, control coverage, or evidence of controls. The compliance score reflects a robust architecture with effective security and operational controls.
+
+## Recommendations
+- Continue to monitor and review the architecture for any changes that may introduce new risks or compliance issues.
+- Regularly update documentation to reflect any changes in controls or architecture.
+
+## Compliance Score
+- **Compliance Score**: 100%
+
+---GAPS_JSON_START---
+{
+  "architecture_issues": [],
+  "log_inconsistencies": [],
+  "security_control_gaps": [],
+  "operational_risks": [],
+  "recommendations": [],
+  "compliance_score": 100
+}
+---GAPS_JSON_END---

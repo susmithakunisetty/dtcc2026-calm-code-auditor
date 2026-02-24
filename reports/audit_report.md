@@ -1,7 +1,7 @@
 # CALM Architecture vs Codebase — Validation Report
-> Generated: 2026-02-22 15:45 UTC  
+> Generated: 2026-02-24 09:40 UTC  
 > Source: `https://github.com/apache/fineract`  
-> CALM files: `fineract-system_architecture.json`, `fineract-platform-detailed_architecture.json`
+> CALM files: `fineract-system.architecture.json`, `fineract-platform-detailed.architecture.json`
 
 ## Executive Summary
 
@@ -36,26 +36,26 @@ Evaluated **20 CALM controls** declared across **22 nodes**.
 
 | Control | Node | Classification | Risk | Summary |
 |---------|------|----------------|------|---------|
-| `fineract-platform-core/rbac-authorization` | `fineract-platform-core` | ❌ DECLARED_BUT_NOT_FOUND | 🔴 CRITICAL | CALM claims role-based access control, but no evidence of RBAC implementation found in the codebase. |
-| `portfolio-module/rbac-authorization` | `portfolio-module` | ❌ DECLARED_BUT_NOT_FOUND | 🔴 CRITICAL | CALM claims role-based access control for portfolio operations, but no evidence of RBAC implementation or related classe… |
-| `user-administration-module/rbac-authorization` | `user-administration-module` | ❌ DECLARED_BUT_NOT_FOUND | 🔴 CRITICAL | CALM claims RBAC is implemented, but there are no security classes or RBAC configurations found in the codebase. |
+| `fineract-platform-core/rbac-authorization` | `fineract-platform-core` | ❌ DECLARED_BUT_NOT_FOUND | 🔴 CRITICAL | CALM claims RBAC is implemented, but no evidence of role-based access control found in the codebase. |
+| `portfolio-module/rbac-authorization` | `portfolio-module` | ❌ DECLARED_BUT_NOT_FOUND | 🔴 CRITICAL | CALM claims RBAC for portfolio operations, but no evidence of role-based access control mechanisms is found in the codeb… |
+| `user-administration-module/rbac-authorization` | `user-administration-module` | ❌ DECLARED_BUT_NOT_FOUND | 🔴 CRITICAL | CALM claims RBAC is implemented using Spring Security, but no evidence of role-based access control classes or configura… |
 | `accounting-module/double-entry-accounting` | `accounting-module` | ❌ DECLARED_BUT_NOT_FOUND | 🟠 HIGH | The control for double-entry accounting integrity is declared, but no evidence of enforcement or validation rules is fou… |
 | `batch-job-scheduler/circuit-breaker` | `batch-job-scheduler` | ❌ DECLARED_BUT_NOT_FOUND | 🟠 HIGH | CALM declares a circuit breaker for batch operations using Resilience4j, but no circuit breaker classes or configuration… |
 | `cob-module/circuit-breaker` | `cob-module` | ❌ DECLARED_BUT_NOT_FOUND | 🟠 HIGH | CALM claims the use of Resilience4j for circuit breaking, but no circuit breaker classes or configurations found in the … |
 | `fineract-api-gateway/mfa-authentication` | `fineract-api-gateway` | ❌ DECLARED_BUT_NOT_FOUND | 🟠 HIGH | CALM declares MFA for API access, but no evidence of MFA implementation found in the codebase. |
 | `fineract-api-gateway/api-rate-limiting` | `fineract-api-gateway` | ❌ DECLARED_BUT_NOT_FOUND | 🟠 HIGH | CALM claims API rate limiting with Resilience4j, but no RateLimiter classes or configurations found in the codebase. |
-| `portfolio-module/audit-logging` | `portfolio-module` | ❌ DECLARED_BUT_NOT_FOUND | 🟠 HIGH | CALM specifies immutable audit logs for portfolio operations, but no relevant logging classes or configurations are foun… |
-| `user-administration-module/password-policy` | `user-administration-module` | ❌ DECLARED_BUT_NOT_FOUND | 🟠 HIGH | The password policy control is declared, but no evidence of password policy enforcement or related classes is found in t… |
+| `portfolio-module/audit-logging` | `portfolio-module` | ❌ DECLARED_BUT_NOT_FOUND | 🟠 HIGH | CALM states that immutable audit logs are maintained for portfolio operations, but no relevant logging classes or config… |
+| `user-administration-module/password-policy` | `user-administration-module` | ❌ DECLARED_BUT_NOT_FOUND | 🟠 HIGH | The password policy control is declared, but no evidence of password policy enforcement is found in the codebase. |
 | `user-administration-module/session-management` | `user-administration-module` | ❌ DECLARED_BUT_NOT_FOUND | 🟠 HIGH | CALM declares secure session management but no session management classes or configurations found in the codebase. |
-| `fineract-api-gateway/audit-logging` | `fineract-api-gateway` | ✅ IMPLEMENTED | 🟡 MEDIUM | Audit logging is implemented with classes that handle logging of API access events. |
-| `fineract-platform-core/input-validation` | `fineract-platform-core` | ✅ IMPLEMENTED | 🟡 MEDIUM | Input validation mechanisms are present, indicating that input validation is implemented. |
-| `fineract-platform-core/audit-logging` | `fineract-platform-core` | ✅ IMPLEMENTED | 🟡 MEDIUM | Audit logging is implemented with classes that handle logging of operations. |
+| `fineract-api-gateway/audit-logging` | `fineract-api-gateway` | ✅ IMPLEMENTED | 🟡 MEDIUM | Audit logging is implemented as evidenced by the presence of audit classes in the codebase. |
+| `fineract-platform-core/input-validation` | `fineract-platform-core` | ✅ IMPLEMENTED | 🟡 MEDIUM | Input validation is implemented as indicated by the presence of validation classes and annotations. |
+| `fineract-platform-core/audit-logging` | `fineract-platform-core` | ✅ IMPLEMENTED | 🟡 MEDIUM | Comprehensive audit logging is implemented as evidenced by the presence of relevant classes in the codebase. |
 | `accounting-module/audit-logging` | `accounting-module` | ✅ IMPLEMENTED | 🟢 LOW | Audit logging for accounting transactions is implemented with classes that handle logging of journal entries and posting… |
 | `batch-job-scheduler/audit-logging` | `batch-job-scheduler` | ✅ IMPLEMENTED | 🟢 LOW | Audit logging is implemented in the codebase with classes that handle logging for batch job executions. |
-| `cob-module/transaction-integrity` | `cob-module` | ✅ IMPLEMENTED | 🟢 LOW | ACID transaction integrity is supported through JPA and transaction management in the COB module. |
+| `cob-module/transaction-integrity` | `cob-module` | ✅ IMPLEMENTED | 🟢 LOW | ACID transaction integrity is supported as indicated by the presence of transaction management in the codebase. |
 | `fineract-api-gateway/tls-encryption` | `fineract-api-gateway` | ✅ IMPLEMENTED | 🟢 LOW | TLS configuration is detected, indicating that TLS encryption is implemented for API communications. |
-| `fineract-platform-core/transaction-integrity` | `fineract-platform-core` | ✅ IMPLEMENTED | 🟢 LOW | ACID transaction guarantees are supported by the transaction management mechanisms in place. |
-| `portfolio-module/input-validation` | `portfolio-module` | ✅ IMPLEMENTED | 🟢 LOW | Input validation is present in the codebase, with evidence of parameterized queries and output encoding. |
+| `fineract-platform-core/transaction-integrity` | `fineract-platform-core` | ✅ IMPLEMENTED | 🟢 LOW | ACID transaction guarantees are implemented as indicated by transaction management in the codebase. |
+| `portfolio-module/input-validation` | `portfolio-module` | ✅ IMPLEMENTED | 🟢 LOW | Input validation is present in the codebase, with mechanisms to prevent SQL injection and XSS. |
 
 ## Detailed Gap Findings
 
@@ -64,7 +64,7 @@ Evaluated **20 CALM controls** declared across **22 nodes**.
 **Classification:** ❌ DECLARED_BUT_NOT_FOUND  
 **Risk:** CRITICAL  
 
-**Reasoning:** CALM claims role-based access control, but no evidence of RBAC implementation found in the codebase.
+**Reasoning:** CALM claims RBAC is implemented, but no evidence of role-based access control found in the codebase.
 
 **Recommendations:**
 - Implement role-based access control using Spring Security.
@@ -91,11 +91,11 @@ Evaluated **20 CALM controls** declared across **22 nodes**.
 **Classification:** ❌ DECLARED_BUT_NOT_FOUND  
 **Risk:** CRITICAL  
 
-**Reasoning:** CALM claims role-based access control for portfolio operations, but no evidence of RBAC implementation or related classes is found in the codebase.
+**Reasoning:** CALM claims RBAC for portfolio operations, but no evidence of role-based access control mechanisms is found in the codebase.
 
 **Recommendations:**
 - Implement RBAC using Spring Security for portfolio operations.
-- Define roles and permissions according to the CALM specification.
+- Define roles and permissions according to the least privilege principle.
 
 <details><summary>CALM Config</summary>
 
@@ -118,11 +118,11 @@ Evaluated **20 CALM controls** declared across **22 nodes**.
 **Classification:** ❌ DECLARED_BUT_NOT_FOUND  
 **Risk:** CRITICAL  
 
-**Reasoning:** CALM claims RBAC is implemented, but there are no security classes or RBAC configurations found in the codebase.
+**Reasoning:** CALM claims RBAC is implemented using Spring Security, but no evidence of role-based access control classes or configurations found.
 
 **Recommendations:**
 - Implement role-based access control using Spring Security.
-- Define user roles and permissions in the user administration module.
+- Define user roles and permissions in the application.
 
 <details><summary>CALM Config</summary>
 
@@ -149,7 +149,7 @@ Evaluated **20 CALM controls** declared across **22 nodes**.
 
 **Recommendations:**
 - Implement double-entry accounting checks to ensure debits equal credits.
-- Establish reconciliation processes as per the CALM specification.
+- Establish reconciliation processes as per GAAP.
 
 <details><summary>CALM Config</summary>
 
@@ -173,7 +173,7 @@ Evaluated **20 CALM controls** declared across **22 nodes**.
 
 **Recommendations:**
 - Implement Resilience4j circuit breaker for batch job operations.
-- Configure failure thresholds and timeouts as per the CALM specification.
+- Configure failure thresholds and timeouts as per CALM specifications.
 
 <details><summary>CALM Config</summary>
 
@@ -197,8 +197,8 @@ Evaluated **20 CALM controls** declared across **22 nodes**.
 **Reasoning:** CALM claims the use of Resilience4j for circuit breaking, but no circuit breaker classes or configurations found in the codebase.
 
 **Recommendations:**
-- Implement Resilience4j circuit breaker in the COB module.
-- Configure failure thresholds and timeouts as per the CALM specifications.
+- Implement circuit breaker functionality using Resilience4j in the COB module.
+- Configure failure thresholds and timeouts as specified.
 
 <details><summary>CALM Config</summary>
 
@@ -249,7 +249,7 @@ Evaluated **20 CALM controls** declared across **22 nodes**.
 
 **Recommendations:**
 - Add Resilience4j RateLimiter configuration to the API gateway layer.
-- Implement rate limiting on API endpoints.
+- Annotate rate-limited endpoints with @RateLimiter.
 
 <details><summary>CALM Config</summary>
 
@@ -269,7 +269,7 @@ Evaluated **20 CALM controls** declared across **22 nodes**.
 **Classification:** ❌ DECLARED_BUT_NOT_FOUND  
 **Risk:** HIGH  
 
-**Reasoning:** CALM specifies immutable audit logs for portfolio operations, but no relevant logging classes or configurations are found in the codebase.
+**Reasoning:** CALM states that immutable audit logs are maintained for portfolio operations, but no relevant logging classes or configurations are found.
 
 **Recommendations:**
 - Implement immutable audit logging for portfolio operations.
@@ -299,10 +299,10 @@ Evaluated **20 CALM controls** declared across **22 nodes**.
 **Classification:** ❌ DECLARED_BUT_NOT_FOUND  
 **Risk:** HIGH  
 
-**Reasoning:** The password policy control is declared, but no evidence of password policy enforcement or related classes is found in the codebase.
+**Reasoning:** The password policy control is declared, but no evidence of password policy enforcement is found in the codebase.
 
 **Recommendations:**
-- Implement a strong password policy as per NIST-800-63B.
+- Implement strong password policies as per NIST-800-63B.
 - Ensure password complexity and expiry requirements are enforced.
 
 <details><summary>CALM Config</summary>
@@ -360,9 +360,9 @@ Ordered by risk. Address Critical and High items first.
 3. **[CRITICAL]** `user-administration-module/rbac-authorization` — Implement role-based access control using Spring Security.
 4. **[HIGH]** `accounting-module/double-entry-accounting` — Implement double-entry accounting checks to ensure debits equal credits.
 5. **[HIGH]** `batch-job-scheduler/circuit-breaker` — Implement Resilience4j circuit breaker for batch job operations.
-6. **[HIGH]** `cob-module/circuit-breaker` — Implement Resilience4j circuit breaker in the COB module.
+6. **[HIGH]** `cob-module/circuit-breaker` — Implement circuit breaker functionality using Resilience4j in the COB module.
 7. **[HIGH]** `fineract-api-gateway/mfa-authentication` — Implement multi-factor authentication using Spring Security.
 8. **[HIGH]** `fineract-api-gateway/api-rate-limiting` — Add Resilience4j RateLimiter configuration to the API gateway layer.
 9. **[HIGH]** `portfolio-module/audit-logging` — Implement immutable audit logging for portfolio operations.
-10. **[HIGH]** `user-administration-module/password-policy` — Implement a strong password policy as per NIST-800-63B.
+10. **[HIGH]** `user-administration-module/password-policy` — Implement strong password policies as per NIST-800-63B.
 11. **[HIGH]** `user-administration-module/session-management` — Implement session management features in the user administration module.

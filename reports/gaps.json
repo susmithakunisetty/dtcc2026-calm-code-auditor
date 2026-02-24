@@ -6,7 +6,7 @@
     "declared": true,
     "classification": "DECLARED_BUT_NOT_FOUND",
     "risk": "CRITICAL",
-    "reasoning": "CALM claims role-based access control, but no evidence of RBAC implementation found in the codebase.",
+    "reasoning": "CALM claims RBAC is implemented, but no evidence of role-based access control found in the codebase.",
     "evidence": {
       "calm_config": {
         "authorization-framework": "Spring Security",
@@ -31,7 +31,7 @@
     "declared": true,
     "classification": "DECLARED_BUT_NOT_FOUND",
     "risk": "CRITICAL",
-    "reasoning": "CALM claims role-based access control for portfolio operations, but no evidence of RBAC implementation or related classes is found in the codebase.",
+    "reasoning": "CALM claims RBAC for portfolio operations, but no evidence of role-based access control mechanisms is found in the codebase.",
     "evidence": {
       "calm_config": {
         "authorization-framework": "Spring Security",
@@ -46,7 +46,7 @@
     },
     "recommendations": [
       "Implement RBAC using Spring Security for portfolio operations.",
-      "Define roles and permissions according to the CALM specification."
+      "Define roles and permissions according to the least privilege principle."
     ]
   },
   {
@@ -56,7 +56,7 @@
     "declared": true,
     "classification": "DECLARED_BUT_NOT_FOUND",
     "risk": "CRITICAL",
-    "reasoning": "CALM claims RBAC is implemented, but there are no security classes or RBAC configurations found in the codebase.",
+    "reasoning": "CALM claims RBAC is implemented using Spring Security, but no evidence of role-based access control classes or configurations found.",
     "evidence": {
       "calm_config": {
         "authorization-framework": "Spring Security",
@@ -71,7 +71,7 @@
     },
     "recommendations": [
       "Implement role-based access control using Spring Security.",
-      "Define user roles and permissions in the user administration module."
+      "Define user roles and permissions in the application."
     ]
   },
   {
@@ -117,7 +117,7 @@
     },
     "recommendations": [
       "Add Resilience4j RateLimiter configuration to the API gateway layer.",
-      "Implement rate limiting on API endpoints."
+      "Annotate rate-limited endpoints with @RateLimiter."
     ]
   },
   {
@@ -140,7 +140,7 @@
     },
     "recommendations": [
       "Implement Resilience4j circuit breaker for batch job operations.",
-      "Configure failure thresholds and timeouts as per the CALM specification."
+      "Configure failure thresholds and timeouts as per CALM specifications."
     ]
   },
   {
@@ -150,7 +150,7 @@
     "declared": true,
     "classification": "DECLARED_BUT_NOT_FOUND",
     "risk": "HIGH",
-    "reasoning": "CALM specifies immutable audit logs for portfolio operations, but no relevant logging classes or configurations are found in the codebase.",
+    "reasoning": "CALM states that immutable audit logs are maintained for portfolio operations, but no relevant logging classes or configurations are found.",
     "evidence": {
       "calm_config": {
         "log-level": "comprehensive",
@@ -190,7 +190,7 @@
     },
     "recommendations": [
       "Implement double-entry accounting checks to ensure debits equal credits.",
-      "Establish reconciliation processes as per the CALM specification."
+      "Establish reconciliation processes as per GAAP."
     ]
   },
   {
@@ -200,7 +200,7 @@
     "declared": true,
     "classification": "DECLARED_BUT_NOT_FOUND",
     "risk": "HIGH",
-    "reasoning": "The password policy control is declared, but no evidence of password policy enforcement or related classes is found in the codebase.",
+    "reasoning": "The password policy control is declared, but no evidence of password policy enforcement is found in the codebase.",
     "evidence": {
       "calm_config": {
         "algorithm": "bcrypt",
@@ -218,7 +218,7 @@
       "requirement_url": "https://fineract.apache.org/controls/password-policy.json"
     },
     "recommendations": [
-      "Implement a strong password policy as per NIST-800-63B.",
+      "Implement strong password policies as per NIST-800-63B.",
       "Ensure password complexity and expiry requirements are enforced."
     ]
   },
@@ -265,8 +265,8 @@
       "requirement_url": "https://fineract.apache.org/controls/circuit-breaker.json"
     },
     "recommendations": [
-      "Implement Resilience4j circuit breaker in the COB module.",
-      "Configure failure thresholds and timeouts as per the CALM specifications."
+      "Implement circuit breaker functionality using Resilience4j in the COB module.",
+      "Configure failure thresholds and timeouts as specified."
     ]
   }
 ]

@@ -60,7 +60,7 @@ pip install -r requirements.txt
 ```bash
 python main.py \
   --source https://github.com/apache/fineract \
-  --calm fineract-system_architecture.json fineract-platform-detailed_architecture.json \
+  --calm fineract-system.architecture.json fineract-platform-detailed.architecture.json \
   --output ./reports
 ```
 
@@ -69,7 +69,7 @@ python main.py \
 ```bash
 python main.py \
   --source /path/to/fineract \
-  --calm fineract-system_architecture.json \
+  --calm fineract-system.architecture.json \
   --output ./reports
 ```
 

@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-02-22T15:45:06.063565+00:00",
+  "generated_at": "2026-02-24T09:40:11.467404+00:00",
   "source": "https://github.com/apache/fineract",
   "calm_files": [
-    "fineract-system_architecture.json",
-    "fineract-platform-detailed_architecture.json"
+    "fineract-system.architecture.json",
+    "fineract-platform-detailed.architecture.json"
   ],
   "summary": {
     "total": 20,
@@ -60,7 +60,7 @@
       },
       "recommendations": [
         "Add Resilience4j RateLimiter configuration to the API gateway layer.",
-        "Implement rate limiting on API endpoints."
+        "Annotate rate-limited endpoints with @RateLimiter."
       ]
     },
     {
@@ -84,8 +84,7 @@
         "requirement_url": "https://fineract.apache.org/controls/tls-encryption.json"
       },
       "recommendations": [
-        "Ensure that all API endpoints enforce HTTPS.",
-        "Regularly update cipher suites to maintain security."
+        "Ensure that the TLS configuration is regularly updated to comply with the latest security standards."
       ]
     },
     {
@@ -95,7 +94,7 @@
       "declared": true,
       "classification": "IMPLEMENTED",
       "risk": "MEDIUM",
-      "reasoning": "Audit logging is implemented with classes that handle logging of API access events.",
+      "reasoning": "Audit logging is implemented as evidenced by the presence of audit classes in the codebase.",
       "evidence": {
         "calm_config": {
           "log-level": "comprehensive",
@@ -112,8 +111,7 @@
         "requirement_url": "https://fineract.apache.org/controls/audit-logging.json"
       },
       "recommendations": [
-        "Review audit logging configurations to ensure compliance with SOC2.",
-        "Enhance logging to capture additional security events."
+        "Review audit logging configurations to ensure compliance with SOC2 requirements."
       ]
     },
     {
@@ -123,7 +121,7 @@
       "declared": true,
       "classification": "DECLARED_BUT_NOT_FOUND",
       "risk": "CRITICAL",
-      "reasoning": "CALM claims role-based access control, but no evidence of RBAC implementation found in the codebase.",
+      "reasoning": "CALM claims RBAC is implemented, but no evidence of role-based access control found in the codebase.",
       "evidence": {
         "calm_config": {
           "authorization-framework": "Spring Security",
@@ -148,7 +146,7 @@
       "declared": true,
       "classification": "IMPLEMENTED",
       "risk": "MEDIUM",
-      "reasoning": "Input validation mechanisms are present, indicating that input validation is implemented.",
+      "reasoning": "Input validation is implemented as indicated by the presence of validation classes and annotations.",
       "evidence": {
         "calm_config": {
           "validation-framework": "Jakarta Validation",
@@ -165,8 +163,7 @@
         "requirement_url": "https://fineract.apache.org/controls/input-validation.json"
       },
       "recommendations": [
-        "Ensure all user inputs are validated against defined constraints.",
-        "Regularly review validation rules to prevent injection attacks."
+        "Regularly review validation rules to ensure they cover all potential injection vectors."
       ]
     },
     {
@@ -176,7 +173,7 @@
       "declared": true,
       "classification": "IMPLEMENTED",
       "risk": "MEDIUM",
-      "reasoning": "Audit logging is implemented with classes that handle logging of operations.",
+      "reasoning": "Comprehensive audit logging is implemented as evidenced by the presence of relevant classes in the codebase.",
       "evidence": {
         "calm_config": {
           "log-level": "comprehensive",
@@ -194,8 +191,7 @@
         "requirement_url": "https://fineract.apache.org/controls/audit-logging.json"
       },
       "recommendations": [
-        "Ensure compliance with SOX by reviewing audit log retention policies.",
-        "Enhance logging to capture additional operational events."
+        "Ensure that logged events are sufficient for compliance with SOX requirements."
       ]
     },
     {
@@ -205,7 +201,7 @@
       "declared": true,
       "classification": "IMPLEMENTED",
       "risk": "LOW",
-      "reasoning": "ACID transaction guarantees are supported by the transaction management mechanisms in place.",
+      "reasoning": "ACID transaction guarantees are implemented as indicated by transaction management in the codebase.",
       "evidence": {
         "calm_config": {
           "isolation-level": "REPEATABLE_READ",
@@ -217,8 +213,7 @@
         "requirement_url": "https://fineract.apache.org/controls/transaction-integrity.json"
       },
       "recommendations": [
-        "Regularly test transaction integrity under various scenarios.",
-        "Document transaction management practices for compliance."
+        "Regularly test transaction integrity to ensure compliance with business requirements."
       ]
     },
     {
@@ -241,7 +236,7 @@
       },
       "recommendations": [
         "Implement Resilience4j circuit breaker for batch job operations.",
-        "Configure failure thresholds and timeouts as per the CALM specification."
+        "Configure failure thresholds and timeouts as per CALM specifications."
       ]
     },
     {
@@ -275,7 +270,7 @@
       "declared": true,
       "classification": "DECLARED_BUT_NOT_FOUND",
       "risk": "CRITICAL",
-      "reasoning": "CALM claims role-based access control for portfolio operations, but no evidence of RBAC implementation or related classes is found in the codebase.",
+      "reasoning": "CALM claims RBAC for portfolio operations, but no evidence of role-based access control mechanisms is found in the codebase.",
       "evidence": {
         "calm_config": {
           "authorization-framework": "Spring Security",
@@ -290,7 +285,7 @@
       },
       "recommendations": [
         "Implement RBAC using Spring Security for portfolio operations.",
-        "Define roles and permissions according to the CALM specification."
+        "Define roles and permissions according to the least privilege principle."
       ]
     },
     {
@@ -300,7 +295,7 @@
       "declared": true,
       "classification": "IMPLEMENTED",
       "risk": "LOW",
-      "reasoning": "Input validation is present in the codebase, with evidence of parameterized queries and output encoding.",
+      "reasoning": "Input validation is present in the codebase, with mechanisms to prevent SQL injection and XSS.",
       "evidence": {
         "calm_config": {
           "validation-framework": "Jakarta Validation",
@@ -324,7 +319,7 @@
       "declared": true,
       "classification": "DECLARED_BUT_NOT_FOUND",
       "risk": "HIGH",
-      "reasoning": "CALM specifies immutable audit logs for portfolio operations, but no relevant logging classes or configurations are found in the codebase.",
+      "reasoning": "CALM states that immutable audit logs are maintained for portfolio operations, but no relevant logging classes or configurations are found.",
       "evidence": {
         "calm_config": {
           "log-level": "comprehensive",
@@ -364,7 +359,7 @@
       },
       "recommendations": [
         "Implement double-entry accounting checks to ensure debits equal credits.",
-        "Establish reconciliation processes as per the CALM specification."
+        "Establish reconciliation processes as per GAAP."
       ]
     },
     {
@@ -398,7 +393,7 @@
       "declared": true,
       "classification": "DECLARED_BUT_NOT_FOUND",
       "risk": "HIGH",
-      "reasoning": "The password policy control is declared, but no evidence of password policy enforcement or related classes is found in the codebase.",
+      "reasoning": "The password policy control is declared, but no evidence of password policy enforcement is found in the codebase.",
       "evidence": {
         "calm_config": {
           "algorithm": "bcrypt",
@@ -416,7 +411,7 @@
         "requirement_url": "https://fineract.apache.org/controls/password-policy.json"
       },
       "recommendations": [
-        "Implement a strong password policy as per NIST-800-63B.",
+        "Implement strong password policies as per NIST-800-63B.",
         "Ensure password complexity and expiry requirements are enforced."
       ]
     },
@@ -451,7 +446,7 @@
       "declared": true,
       "classification": "DECLARED_BUT_NOT_FOUND",
       "risk": "CRITICAL",
-      "reasoning": "CALM claims RBAC is implemented, but there are no security classes or RBAC configurations found in the codebase.",
+      "reasoning": "CALM claims RBAC is implemented using Spring Security, but no evidence of role-based access control classes or configurations found.",
       "evidence": {
         "calm_config": {
           "authorization-framework": "Spring Security",
@@ -466,7 +461,7 @@
       },
       "recommendations": [
         "Implement role-based access control using Spring Security.",
-        "Define user roles and permissions in the user administration module."
+        "Define user roles and permissions in the application."
       ]
     },
     {
@@ -476,7 +471,7 @@
       "declared": true,
       "classification": "IMPLEMENTED",
       "risk": "LOW",
-      "reasoning": "ACID transaction integrity is supported through JPA and transaction management in the COB module.",
+      "reasoning": "ACID transaction integrity is supported as indicated by the presence of transaction management in the codebase.",
       "evidence": {
         "calm_config": {
           "isolation-level": "SERIALIZABLE",
@@ -508,8 +503,8 @@
         "requirement_url": "https://fineract.apache.org/controls/circuit-breaker.json"
       },
       "recommendations": [
-        "Implement Resilience4j circuit breaker in the COB module.",
-        "Configure failure thresholds and timeouts as per the CALM specifications."
+        "Implement circuit breaker functionality using Resilience4j in the COB module.",
+        "Configure failure thresholds and timeouts as specified."
       ]
     }
   ]
