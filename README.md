@@ -55,7 +55,7 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Validate Apache Fineract from GitHub
+### Validate Apache Fineract from GitHub eith the CALM Architecture
 
 ```bash
 python main.py \
@@ -71,6 +71,12 @@ python main.py \
   --source /path/to/fineract \
   --calm fineract-system.architecture.json \
   --output ./reports
+```
+
+### Validate Apache Fineract Application Logs with the CALM Architecture
+
+```bash
+python python app/validator.py
 ```
 
 ### All CLI options
